@@ -22,7 +22,7 @@ public class ImageModelImplBoundService
     /**
      * Reference to the reply Messenger that's passed to the
      * DownloadImagesBoundService and used to return image results via
-     * the ServiceResultHandler.
+     * the Handler.
      */
     private Messenger mReplyMessenger = null;
 
@@ -37,7 +37,8 @@ public class ImageModelImplBoundService
      * Used to receive a reference to the RequestMessenger after
      * binding to the DownloadImagesBoundService using bindService().
      */
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private ServiceConnection mServiceConnection =
+        new ServiceConnection() {
             /**
              * Called by the Android Binder framework after the
              * DownloadImagesBoundService is connected to convey the
@@ -62,7 +63,9 @@ public class ImageModelImplBoundService
              */
             public void onServiceDisconnected(ComponentName className) {
                 Log.d(TAG,
-                      "onServiceDisconnected ");
+                      "onServiceDisconnected() "
+                      + className);
+
                 // Reset the reference to the RequestMessenger to
                 // null, thereby preventing send() calls until it's
                 // reconnected.
@@ -85,7 +88,7 @@ public class ImageModelImplBoundService
     @Override
     protected void bindService() {
         Log.d(TAG,
-              "calling bindService()");
+              "calling ImageModelImplBoundService.bindService()");
 
         if (mRequestMessengerRef == null) {
             // Create a new intent to the DownloadImagesBoundService
@@ -94,7 +97,7 @@ public class ImageModelImplBoundService
             // TODO - you fill in here.
 
             Log.d(TAG,
-                  "calling bindService()");
+                  "calling Context.bindService()");
 
             // Bind to the Service associated with the Intent.
             // TODO -- you fill in here.
@@ -107,12 +110,14 @@ public class ImageModelImplBoundService
     @Override
     protected void unbindService() {
         Log.d(TAG,
-              "calling unbindService()");
+              "calling ImageModelImplBoundService.unbindService()");
+
         if (mRequestMessengerRef != null) {
-            Log.d(TAG,
-                  "calling unbindService()");
             // Unbind from the Service.
             // TODO -- you fill in here.
+
+            Log.d(TAG,
+                  "calling Context.unbindService()");
 
             // Set this field to null to trigger a call to
             // bindService() next time bindService() is called.
@@ -138,7 +143,7 @@ public class ImageModelImplBoundService
                               Uri directoryPathname) {
         if (mRequestMessengerRef == null) 
             Utils.showToast(mImagePresenter.get().getActivityContext(),
-                            "not bound to the service");
+                            "Not bound to the service");
         else {
             try {
                 // Create a RequestMessage that indicates the
@@ -155,7 +160,8 @@ public class ImageModelImplBoundService
                       "sending a request message to DownloadImagesBoundService for "
                       + url.toString());
 
-                // Send the request Message to the DownloadService.
+                // Send the request Message to the
+                // DownloadImagesBoundService.
                 // TODO -- you fill in here.
             } catch (Exception e) {
                 e.printStackTrace();
