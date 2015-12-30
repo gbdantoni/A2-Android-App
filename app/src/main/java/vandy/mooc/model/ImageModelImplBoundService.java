@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
@@ -53,7 +54,8 @@ public class ImageModelImplBoundService
                 // Create a new Messenger that encapsulates the
                 // returned IBinder object and store it for later use
                 // in mRequestMessengerRef.
-                // TODO -- you fill in here.
+                // TODO -- you fill in here. - Done
+                mRequestMessengerRef = new Messenger(binder);
             }
 
             /**
@@ -69,7 +71,8 @@ public class ImageModelImplBoundService
                 // Reset the reference to the RequestMessenger to
                 // null, thereby preventing send() calls until it's
                 // reconnected.
-                // TODO -- you fill in here.
+                // TODO -- you fill in here. - Done
+                mRequestMessengerRef = null;
             }
 	};
 
@@ -94,13 +97,17 @@ public class ImageModelImplBoundService
             // Create a new intent to the DownloadImagesBoundService
             // that can download an image from the URL given by the
             // user.
-            // TODO - you fill in here.
+            // TODO - you fill in here. - Done
+            Intent intent = DownloadImagesBoundService.makeIntent
+                    (mImagePresenter.get().getActivityContext());
 
             Log.d(TAG,
                   "calling Context.bindService()");
 
             // Bind to the Service associated with the Intent.
-            // TODO -- you fill in here.
+            // TODO -- you fill in here. - Done
+            mImagePresenter.get().getApplicationContext().bindService
+                    (intent,mServiceConnection,Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -114,14 +121,17 @@ public class ImageModelImplBoundService
 
         if (mRequestMessengerRef != null) {
             // Unbind from the Service.
-            // TODO -- you fill in here.
+            // TODO -- you fill in here. - Done
+            mImagePresenter.get().getApplicationContext().unbindService(mServiceConnection);
+
 
             Log.d(TAG,
                   "calling Context.unbindService()");
 
             // Set this field to null to trigger a call to
             // bindService() next time bindService() is called.
-            // TODO -- you fill in here.
+            // TODO -- you fill in here. - Done
+            mRequestMessengerRef = null;
         } 
     }
 
@@ -162,7 +172,8 @@ public class ImageModelImplBoundService
 
                 // Send the request Message to the
                 // DownloadImagesBoundService.
-                // TODO -- you fill in here.
+                // TODO -- you fill in here. - Done
+                mRequestMessengerRef.send(requestMessage.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
