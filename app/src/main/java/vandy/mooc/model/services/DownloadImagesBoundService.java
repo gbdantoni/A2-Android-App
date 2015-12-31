@@ -133,7 +133,6 @@ public class DownloadImagesBoundService
 	    // the image and reply.
 	    // TODO -- you fill in here. - Done
         mExecutorService.execute(downloadImageAndReply);
-        //downloadImageAndReply.run();
 	}
 
 	/**
@@ -147,8 +146,10 @@ public class DownloadImagesBoundService
 	    // Call the makeReplyMessage() factory method to create
 	    // Message.
 	    // TODO -- you fill in here. - Done
-		ReplyMessage message = ReplyMessage.makeReplyMessage(pathToImageFile,
-				url,requestCode);
+		ReplyMessage message = ReplyMessage.makeReplyMessage
+				(pathToImageFile,
+					url,
+					requestCode);
 
 		try {
 		Log.d(TAG,
@@ -184,8 +185,7 @@ public class DownloadImagesBoundService
         // Create an intent that will download the image from the web.
     	// TODO -- you fill in here, replacing null with the proper - Done
     	// code.
-        Intent intent = new Intent (context,DownloadImagesBoundService.class);
-        return intent;
+        return new Intent (context,DownloadImagesBoundService.class);
     }
 
     /**
