@@ -173,7 +173,7 @@ public class DownloadImagesBoundService
 	public void shutdown() {
 	    // Immediately shutdown the ExecutorService.
 	    // TODO -- you fill in here. - Done
-		mExecutorService.shutdown();
+		mExecutorService.shutdownNow();
 	}
     }
 
